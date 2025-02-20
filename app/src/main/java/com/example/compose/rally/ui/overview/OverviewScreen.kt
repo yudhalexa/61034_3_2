@@ -49,8 +49,11 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.compose.rally.R
+import com.example.compose.rally.SingleAccount
 import com.example.compose.rally.data.UserData
+import com.example.compose.rally.navigateSingleTopTo
 import com.example.compose.rally.ui.components.AccountRow
 import com.example.compose.rally.ui.components.BillRow
 import com.example.compose.rally.ui.components.RallyAlertDialog
@@ -62,7 +65,9 @@ import java.util.Locale
 fun OverviewScreen(
     onClickSeeAllAccounts: () -> Unit = {},
     onClickSeeAllBills: () -> Unit = {},
-    onAccountClick: (String) -> Unit = {},
+    onAccountClick = { accountType ->
+        navController.navigateSingleTopTo(accountType)
+    }
 ) {
     Column(
         modifier = Modifier
@@ -283,3 +288,7 @@ private fun SeeAllButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 private val RallyDefaultPadding = 12.dp
 
 private const val SHOWN_ITEMS = 3
+
+private fun NavHostController.navigateToSingleAccount(accountType: String) {
+    this.navigateSingleTopTo("${SingleAccount.route}/$accountType")
+}
